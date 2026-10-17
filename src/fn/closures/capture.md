@@ -1,5 +1,17 @@
 # Capturing
 
+A value in Rust has an *owner* that is responsible for cleaning it up.
+*Moving* a value transfers ownership, so the original variable can no longer be
+used. Some types, such as integers, are copied instead of moved.
+
+*Borrowing* means accessing a value through a reference without taking ownership.
+`&value` creates a shared reference for reading the value, while `&mut value`
+creates a mutable reference that also permits changing it. `*reference` accesses
+the value behind a reference. Rust allows several shared borrows at once, but a
+mutable borrow requires exclusive access while it is used. References cannot
+outlive the values they refer to. See [Ownership and moves][ownership] and
+[Borrowing][borrowing] in the later Scoping rules chapter for more detail.
+
 Closures are inherently flexible and will do what the functionality requires
 to make the closure work without annotation. This allows capturing to
 flexibly adapt to the use case, sometimes moving and sometimes borrowing.
@@ -113,3 +125,5 @@ fn main() {
 
 [box]: ../../std/box.md
 [drop]: https://doc.rust-lang.org/std/mem/fn.drop.html
+[ownership]: ../../scope/move.md
+[borrowing]: ../../scope/borrow.md
