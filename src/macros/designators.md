@@ -1,7 +1,7 @@
 # Designators
 
 The arguments of a macro are prefixed by a dollar sign `$` and type annotated
-with a *designator*:
+with a *designator*, also called a *fragment specifier*:
 
 ```rust,editable
 macro_rules! create_function {
@@ -62,6 +62,6 @@ These are some of the available designators:
 * `ty` (*type*)
 * `vis` (*visibility qualifier*)
 
-For a complete list, see the [Rust Reference].
+For a complete list of fragment specifiers, see the [Rust Reference].
 
-[Rust Reference]: https://doc.rust-lang.org/reference/macros-by-example.html
+[Rust Reference]: https://doc.rust-lang.org/reference/macros-by-example.html#metavariables
