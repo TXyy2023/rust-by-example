@@ -64,6 +64,13 @@ mod test {
 }
 ```
 
+In `assert_equal_len!`, `($a.len(),)` and `($b.len(),)` construct
+[single-element tuples](../primitives/tuples.md). The trailing comma distinguishes
+a tuple from an expression in parentheses. Here, the tuples make `{:?}` format
+the lengths as `(2,)` and `(3,)` in the dimension-mismatch message. The assertion
+still compares the lengths directly with `$a.len() == $b.len()`. This is ordinary
+tuple syntax, separate from [macro repetition](repeat.md).
+
 ```shell
 $ rustc --test dry.rs && ./dry
 running 3 tests
