@@ -36,6 +36,12 @@ Output:
 (1 + 2) * (3 / 4) = 0
 ```
 
+The braces in `stringify!{$e}` delimit the macro invocation. `stringify!($e)`
+and `stringify![$e]` have the same effect here. Similarly, `calculate!` can be
+invoked with `()`, `[]`, or `{}`, regardless of the parentheses in its matcher.
+When invoking `calculate!` as a statement with `()` or `[]`, add a trailing
+semicolon; the `{}` form does not require one.
+
 This was a very simple example, but much more complex interfaces have been
 developed, such as [`lazy_static`](https://crates.io/crates/lazy_static) or
 [`clap`](https://crates.io/crates/clap).
