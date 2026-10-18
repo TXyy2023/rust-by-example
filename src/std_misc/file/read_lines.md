@@ -41,11 +41,13 @@ and `String::from` respectively.
 
 ## A more efficient approach
 
-Here we pass ownership of the open `File` to a `BufReader` struct. `BufReader` uses an internal
-buffer to reduce intermediate allocations.
+Here we pass ownership of the open `File` to a `BufReader` struct. `BufReader` reads data
+in chunks, reducing the number of calls to the underlying reader.
 
-We also update `read_lines` to return an iterator instead of allocating new
-`String` objects in memory for each line.
+We also update `read_lines` to return an iterator so that we can process each line as
+it is read, without storing all the lines in a `Vec<String>`. [`BufRead::lines`] still
+allocates a new `String` for each line, but the loop below drops that string before
+reading the next line.
 
 ```rust,no_run
 use std::fs::File;
@@ -83,5 +85,12 @@ $ rustc read_lines.rs && ./read_lines
 (Note that since `File::open` expects a generic `AsRef<Path>` as argument, we define our
 generic `read_lines()` method with the same generic constraint, using the `where` keyword.)
 
-This process is more efficient than creating a `String` in memory with all of the file's
-contents. This can especially cause performance issues when working with larger files.
+This approach reduces peak memory usage by avoiding a `String` containing the whole
+file and a `Vec<String>` holding all its lines. It is especially useful for large files,
+but does not eliminate per-line allocations. If each line can be processed before
+reading the next, [`BufRead::read_line`] can reuse a single `String` buffer: clear the
+buffer between reads to retain its allocated capacity without retaining the previous
+line's contents.
+
+[`BufRead::lines`]: https://doc.rust-lang.org/std/io/trait.BufRead.html#method.lines
+[`BufRead::read_line`]: https://doc.rust-lang.org/std/io/trait.BufRead.html#method.read_line
